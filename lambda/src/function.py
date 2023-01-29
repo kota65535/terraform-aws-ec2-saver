@@ -67,7 +67,7 @@ def get_instances_by_tag(name, value) -> List[EC2Instance]:
     instances = []
     for r in reservations:
         for i in r["Instances"]:
-            name = next(t for t in i["Tags"] if t["Key"] == "Name")
+            name = next((t for t in i["Tags"] if t["Key"] == "Name"), "")
             instances.append({"id": i["InstanceId"], "name": name})
 
     return instances
