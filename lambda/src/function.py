@@ -2,7 +2,7 @@ import json
 import logging
 import os
 from datetime import datetime
-from typing import Dict, List, TypedDict
+from typing import TypedDict
 
 import boto3
 from pytz import timezone
@@ -20,7 +20,7 @@ class EC2Instance(TypedDict):
     name: str
 
 
-def lambda_handler(event: Dict, context: Dict):
+def lambda_handler(event: dict, context: dict):
     logger.info(f"Input: {json.dumps(event)}")
 
     current_hour = str(datetime.now(tz=timezone(TIMEZONE)).hour)
@@ -61,7 +61,7 @@ def start_instances(current_hour: str):
     logger.info(response)
 
 
-def get_instances_by_tag(name, value) -> List[EC2Instance]:
+def get_instances_by_tag(name, value) -> list[EC2Instance]:
     reservations = ec2.describe_instances(Filters=[{"Name": f"tag:{name}", "Values": [value]}]).get("Reservations", [])
 
     instances = []
